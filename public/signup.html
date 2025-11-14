@@ -1,29 +1,166 @@
+
+
+
+<!-- 
+signup works -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Signup</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    input, select, button {
+      width: 90%;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    input.error-border {
+      border-color: red;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      text-align: left;
+      margin-left: 5%;
+      margin-bottom: 5px;
+      height: 14px; /* Keeps space consistent */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    p {
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
   <div class="form-container">
     <h2>Signup</h2>
     <form id="signupForm">
-      <select id="role">
+      <select id="role" required>
         <option value="user">User</option>
         <option value="admin">Admin</option>
       </select>
+
       <input type="text" id="name" placeholder="Name" required>
+      <p class="error" id="nameError"></p>
+
       <input type="email" id="email" placeholder="Email" required>
+      <p class="error" id="emailError"></p>
+
       <input type="password" id="password" placeholder="Password" required>
+      <p class="error" id="passwordError"></p>
+
       <input type="text" id="address" placeholder="Address">
+      <p class="error"></p>
+
       <input type="text" id="city" placeholder="City">
-      <input type="text" id="phone" placeholder="Phone">
+      <p class="error"></p>
+
+      <input type="text" id="phone" placeholder="Phone" required>
+      <p class="error" id="phoneError"></p>
+
       <button type="submit">Sign Up</button>
     </form>
     <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Get input fields
+      const name = document.getElementById("name");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const phone = document.getElementById("phone");
+
+      // Get error <p> elements
+      const nameError = document.getElementById("nameError");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+      const phoneError = document.getElementById("phoneError");
+
+      // Reset errors
+      let valid = true;
+      [name, email, password, phone].forEach(input => input.classList.remove("error-border"));
+      [nameError, emailError, passwordError, phoneError].forEach(err => err.textContent = "");
+
+      // ✅ Name validation
+      if (name.value.trim() === "") {
+        nameError.textContent = "Name cannot be empty.";
+        name.classList.add("error-border");
+        valid = false;
+      }
+
+      // ✅ Email validation
+      if (!email.value.trim().endsWith("@gmail.com")) {
+        emailError.textContent = "Email must end with '@gmail.com'.";
+        email.classList.add("error-border");
+        valid = false;
+      }
+
+      // ✅ Password validation (at least 6 characters)
+      if (password.value.trim().length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters.";
+        password.classList.add("error-border");
+        valid = false;
+      }
+
+      // ✅ Phone validation (exactly 10 digits)
+      if (!/^\d{10}$/.test(phone.value.trim())) {
+        phoneError.textContent = "Phone number must be exactly 10 digits.";
+        phone.classList.add("error-border");
+        valid = false;
+      }
+
+      // ✅ Final check
+      if (valid) {
+        alert("Signup successful!");
+        // Optionally, send data to server here
+      }
+    });
+  </script>
+   <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+

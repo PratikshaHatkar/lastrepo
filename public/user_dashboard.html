@@ -1,217 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard - Ayurvedic Medicine Finder</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f7fc;
+      background-color: #eef2f3;
       margin: 0;
       padding: 0;
     }
 
-    .navbar {
-      background-color: #2e7d32;
+    header {
+      background-color: #007bff;
       color: white;
-      padding: 15px 30px;
+      padding: 15px;
+      text-align: center;
+      /* display:flex; */
       display: flex;
       justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar h2 {
-      margin: 0;
-    }
-
-    .navbar button {
-      background-color: #fff;
-      color: #2e7d32;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .navbar button:hover {
-      background-color: #e8f5e9;
     }
 
     .container {
-      width: 85%;
-      margin: 30px auto;
+      width: 90%;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-section {
       text-align: center;
-      background: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
     }
 
-    .container h3 {
-      color: #2e7d32;
-      margin-bottom: 20px;
+    .logout-btn {
+        background: #ff5252;
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+    .search-section input {
+      width: 250px;
+      padding: 8px;
+      margin-right: 10px;
     }
 
-    .container input, .container button {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
+    .admin-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
 
-    .container button {
-      background: #2e7d32;
+    .card {
+      width: 280px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .btn {
+      background-color: #007bff;
       color: white;
       border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    .container button:hover {
-      background: #256528;
+    .btn:hover {
+      background-color: #0056b3;
     }
 
-    .results {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 30px;
+    h2 {
+      color: #333;
     }
 
-    .section {
-      background: white;
-      padding: 15px;
-      margin: 10px;
-      border-radius: 10px;
-      width: 280px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: left;
+    /* Medicine Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
-    .section h4 {
-      color: #2e7d32;
-      margin-bottom: 8px;
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
     }
 
-    img {
-      border-radius: 8px;
-      margin-top: 10px;
-      width: 150px;
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    td img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 20px;
     }
   </style>
 </head>
-
 <body>
-  <nav class="navbar">
-    <h2>Ayurvedic Medicine Finder</h2>
-    <button onclick="logout()">Logout</button>
-  </nav>
+  <header>
+    <h1>User Dashboard</h1>
+    <div class="admin-info">
+      <span>Welcome, User</span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
 
   <div class="container">
-    <h3>Find Ayurvedic Remedies</h3>
-    <input type="text" id="diseaseInput" placeholder="Enter symptom, disease, company, or medicine name">
-    <button onclick="getMedicine()">Search</button>
-
-    <div class="results">
-      <div class="section">
-        <h4>Symptom(s)</h4>
-        <p id="symptom-list">Enter your query to see results.</p>
-      </div>
-
-      <div class="section">
-        <h4>Medicine Name</h4>
-        <p id="remedies-list"></p>
-      </div>
-
-      <div class="section">
-        <h4>Composition</h4>
-        <p id="composition-list"></p>
-      </div>
-
-      <div class="section">
-        <h4>Company</h4>
-        <p id="company-list"></p>
-      </div>
-
-      <div class="section">
-        <h4>Usage Info</h4>
-        <p id="usage-list"></p>
-      </div>
-
-      <div class="section">
-        <h4>Image</h4>
-        <div id="image-list"></div>
-      </div>
+    <div class="search-section">
+      <h2>Search Admins by City</h2>
+      <input type="text" id="cityInput" placeholder="Enter your city..." />
+      <button class="btn" onclick="fetchAdmins()">Search</button>
     </div>
+
+    <h2>Available Admins</h2>
+    <div id="adminList" class="admin-list"></div>
+
+    <h2>Medicines from Selected Admin</h2>
+    <div id="medicineList"></div>
   </div>
 
   <script>
-    // ✅ Show logged-in user's name (if stored)
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      window.location.href = "login.html";
-    }
+    const API_BASE = "http://localhost:5000/api";
 
-    async function getMedicine() {
-      const input = document.getElementById("diseaseInput").value.trim();
+    // ✅ Fetch Admins by City
+    async function fetchAdmins() {
+      const city = document.getElementById("cityInput").value.trim();
+      const adminListDiv = document.getElementById("adminList");
+      const medicineListDiv = document.getElementById("medicineList");
+      adminListDiv.innerHTML = "";
+      medicineListDiv.innerHTML = "";
 
-      if (!input) {
-        alert("Please enter a symptom, disease, company, or medicine name!");
+      if (!city) {
+        alert("Please enter a city!");
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/medicines?symptom=${encodeURIComponent(input)}`);
-        const data = await response.json();
+        const res = await fetch(`${API_BASE}/admins/${city}`);
+        const admins = await res.json();
 
-        const symptomDiv = document.getElementById("symptom-list");
-        const remediesDiv = document.getElementById("remedies-list");
-        const compositionDiv = document.getElementById("composition-list");
-        const companyDiv = document.getElementById("company-list");
-        const usageDiv = document.getElementById("usage-list");
-        const imageDiv = document.getElementById("image-list");
-
-        if (!data || data.length === 0) {
-          symptomDiv.innerHTML = "No results found.";
-          remediesDiv.innerHTML = "";
-          compositionDiv.innerHTML = "";
-          companyDiv.innerHTML = "";
-          usageDiv.innerHTML = "";
-          imageDiv.innerHTML = "";
+        if (admins.length === 0) {
+          adminListDiv.innerHTML = "<p class='no-data'>No admins found for this city.</p>";
           return;
         }
 
-        // Collect unique values
-        const medicineNames = [...new Set(data.map(m => m.medicine_name))].join(", ");
-        const ingredients = [...new Set(data.map(m => m.ingredients))].join(", ");
-        const companies = [...new Set(data.map(m => m.company_name))].join(", ");
-        const usageInfo = [...new Set(data.map(m => m.usage_info))].join(", ");
-        const symptoms = [...new Set(data.map(m => m.symptom))].join(", ");
-
-        symptomDiv.innerHTML = symptoms || "N/A";
-        remediesDiv.innerHTML = medicineNames || "N/A";
-        compositionDiv.innerHTML = ingredients || "N/A";
-        companyDiv.innerHTML = companies || "N/A";
-        usageDiv.innerHTML = usageInfo || "N/A";
-
-        imageDiv.innerHTML = "";
-        if (data[0].image_path && data[0].image_path !== "null") {
-          imageDiv.innerHTML = `<img src="http://localhost:5000/${data[0].image_path}" alt="Medicine Image">`;
-        }
-      } catch (error) {
-        console.error("Error fetching medicine data:", error);
+        admins.forEach((admin) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${admin.name}</h3>
+            <p><strong>Email:</strong> ${admin.email}</p>
+            <p><strong>Address:</strong> ${admin.address}</p>
+            <p><strong>Phone:</strong> ${admin.phone}</p>
+            <button class="btn" onclick="fetchMedicines(${admin.admin_id})">View Medicines</button>
+          `;
+          adminListDiv.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Error fetching admins:", err);
+        adminListDiv.innerHTML = "<p class='no-data'>Error loading admins.</p>";
       }
     }
 
-    // ✅ Logout
     function logout() {
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
-      window.location.href = "signup.html";
+        alert("You have been logged out!");
+        window.location.href = "login.html";
+      }
+  
+
+    // ✅ Fetch Medicines for Selected Admin (Table Format)
+    async function fetchMedicines(adminId) {
+      const medicineListDiv = document.getElementById("medicineList");
+      medicineListDiv.innerHTML = "<p>Loading medicines...</p>";
+
+      try {
+        const res = await fetch(`${API_BASE}/medicines/admin/${adminId}`);
+        const medicines = await res.json();
+
+        if (medicines.length === 0) {
+          medicineListDiv.innerHTML = "<p class='no-data'>No medicines available for this admin.</p>";
+          return;
+        }
+
+        let tableHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Medicine Name</th>
+                <th>Usage</th>
+                <th>Composition</th>
+                <th>Company</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        medicines.forEach((med) => {
+          tableHTML += `
+            <tr>
+              <td><img src="${med.image_path || 'https://via.placeholder.com/70'}" alt="${med.medicine_name}" /></td>
+              <td>${med.medicine_name}</td>
+              <td>${med.use_info}</td>
+              <td>${med.composition || "N/A"}</td>
+              <td>${med.company_name}</td>
+              <td>${med.stock}</td>
+            </tr>
+          `;
+        });
+
+        tableHTML += "</tbody></table>";
+        medicineListDiv.innerHTML = tableHTML;
+      } catch (err) {
+        console.error("Error fetching medicines:", err);
+        medicineListDiv.innerHTML = "<p class='no-data'>Failed to load medicines.</p>";
+      }
     }
   </script>
 </body>
@@ -223,319 +255,690 @@
 
 
 
+
+
+
+
+
+<!-- admin show according to city search -->
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Dashboard</title>
-  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f7fc;
+      background-color: #eef2f3;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
       text-align: center;
-      padding: 40px;
     }
-    .dashboard {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 700px;
-      margin: 0 auto;
+
+    .container {
+      width: 90%;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    h2 {
-      color: #333;
+
+    .search-section {
+      text-align: center;
+      margin-bottom: 30px;
     }
-    #diseaseInput {
-      padding: 10px;
-      width: 60%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+
+    .search-section input {
+      width: 250px;
+      padding: 8px;
       margin-right: 10px;
     }
-    button {
-      padding: 10px 20px;
-      border: none;
-      background-color: #0066ff;
+
+    .admin-list, .medicine-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .card {
+      width: 280px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .medicine-img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .btn {
+      background-color: #007bff;
       color: white;
+      border: none;
+      padding: 8px 12px;
       border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #004fcc;
+
+    .btn:hover {
+      background-color: #0056b3;
     }
-    .results {
-      margin-top: 30px;
-      text-align: left;
+
+    h2 {
+      color: #333;
     }
-    .results div {
-      background: #fafafa;
-      padding: 15px;
+  </style>
+</head>
+<body>
+  <header>
+    <h1>User Dashboard</h1>
+  </header>
+
+  <div class="container">
+    <div class="search-section">
+      <h2>Search Admins by City</h2>
+      <input type="text" id="cityInput" placeholder="Enter your city..." />
+      <button class="btn" onclick="fetchAdmins()">Search</button>
+    </div>
+
+    <h2>Available Admins</h2>
+    <div id="adminList" class="admin-list"></div>
+
+    <h2>Medicines from Selected Admin</h2>
+    <div id="medicineList" class="medicine-list"></div>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:5000/api";
+
+    // ✅ Fetch Admins by City
+    async function fetchAdmins() {
+      const city = document.getElementById("cityInput").value.trim();
+      const adminListDiv = document.getElementById("adminList");
+      adminListDiv.innerHTML = "";
+
+      if (!city) {
+        alert("Please enter a city!");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/admins/${city}`);
+        const admins = await res.json();
+
+        if (admins.length === 0) {
+          adminListDiv.innerHTML = "<p>No admins found for this city.</p>";
+          return;
+        }
+
+        admins.forEach((admin) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${admin.name}</h3>
+            <p><strong>Email:</strong> ${admin.email}</p>
+            <p><strong>Address:</strong> ${admin.address}</p>
+            <p><strong>Phone:</strong> ${admin.phone}</p>
+            <button class="btn" onclick="fetchMedicines(${admin.admin_id})">View Medicines</button>
+          `;
+          adminListDiv.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Error fetching admins:", err);
+      }
+    }
+
+    // ✅ Fetch Medicines for Selected Admin
+    async function fetchMedicines(adminId) {
+      const medicineListDiv = document.getElementById("medicineList");
+      medicineListDiv.innerHTML = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/medicines/admin/${adminId}`);
+        const medicines = await res.json();
+
+        if (medicines.length === 0) {
+          medicineListDiv.innerHTML = "<p>No medicines available for this admin.</p>";
+          return;
+        }
+
+        medicines.forEach((med) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${med.image_path || 'https://via.placeholder.com/150'}" class="medicine-img" alt="${med.medicine_name}" />
+            <h3>${med.medicine_name}</h3>
+            <p><strong>Usage:</strong> ${med.use_info}</p>
+            <p><strong>Composition:</strong> ${med.composition || "N/A"}</p>
+            <p><strong>Company:</strong> ${med.company_name}</p>
+            <p><strong>Stock:</strong> ${med.stock}</p>
+          `;
+          medicineListDiv.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Error fetching medicines:", err);
+      }
+    }
+  </script>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+<!-- working dummy data ocd e -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyurTech - User Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      color: #1b4332;
+    }
+    .dashboard-container {
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #43a047, #81c784, #a5d6a7);
+      width: 250px;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      box-shadow: 3px 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+    .logo-icon {
+      width: 35px;
+      height: 35px;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #f1f8e9;
+      display: block;
+      padding: 12px;
+      margin-bottom: 10px;
       border-radius: 10px;
-      margin-bottom: 15px;
+      transition: all 0.3s;
+      font-weight: 500;
     }
-    img {
+    .sidebar a.active, .sidebar a:hover {
+      background-color: #c8e6c9;
+      color: #1b4332;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #c8e6c9;
+      padding: 10px 15px;
       border-radius: 8px;
+    }
+    .logout-btn {
+      background-color: #2e7d32;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .logout-btn:hover {
+      background-color: #1b5e20;
+    }
+    .hidden {
+      display: none;
+    }
+    .medical-list-section h1 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #1b5e20;
+    }
+    .medical-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    .medical-card {
+      background: linear-gradient(135deg, #ffffff, #e8f5e9, #f0f4c3);
+      padding: 1rem;
+      width: 280px;
+      border-radius: 15px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .medical-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .medical-card h3 {
+      color: #1b5e20;
+      margin-bottom: 8px;
+    }
+    .profile-card {
+      background: linear-gradient(120deg, #ffffff, #f1f8e9, #c8e6c9);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+    }
+    #search {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #81c784;
+      border-radius: 10px;
+      margin: 1rem 0;
+      outline: none;
+      transition: 0.3s;
+    }
+    #search:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 8px #a5d6a7;
+    }
+    .medicine-table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 10px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    .medicine-table th {
+      background: linear-gradient(90deg, #43a047, #66bb6a, #81c784);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .medicine-table td {
+      padding: 12px;
+      border-bottom: 1px solid #e0e0e0;
+      color: #333;
+      vertical-align: middle;
+    }
+    .medicine-table tr:hover {
+      background-color: #f1f8e9;
+    }
+    .medicine-table img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+    }
+    .back-btn {
+      margin-top: 1.5rem;
+      background-color: #43a047;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background-color: #1b5e20;
     }
   </style>
 </head>
 
 <body>
-  <div class="dashboard">
-    <h2 id="welcomeText">Welcome, User!</h2>
-    <p>You are logged in as a <b>User</b>.</p>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <h2 class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="logo" class="logo-icon"/> AyurTech
+      </h2>
+      <nav>
+        <ul>
+          <li><a href="#" class="active" id="dashboard-link">🏠 Dashboard</a></li>
+          <li><a href="#" id="medicine-link">💊 Medicines</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-    <hr><br>
+    <main class="main-content">
+      <header class="header">
+        <p id="welcome-text">Welcome, User</p>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </header>
 
-    <h3>🔍 Search for Medicine by Symptom / Disease / Company / Medicine Name</h3>
-    <input type="text" id="diseaseInput" placeholder="Enter symptom, disease, company, or medicine name">
-    <button onclick="getMedicine()">Search</button>
+      <section class="medical-list-section">
+        <h1>Available Medical Shops</h1>
+        <div id="medical-list" class="medical-list"></div>
+      </section>
 
-    <div class="results">
-      <h3>Search Results:</h3>
-      <div><b>Symptom(s):</b> <span id="symptom-list"></span></div>
-      <div><b>Medicine Name:</b> <span id="remedies-list"></span></div>
-      <div><b>Composition:</b> <span id="composition-list"></span></div>
-      <div><b>Company:</b> <span id="company-list"></span></div>
-      <div><b>Usage Info:</b> <span id="usage-list"></span></div>
-      <div id="image-list"></div>
-    </div>
+      <section id="profile-section" class="profile-section hidden">
+        <h2>Medical Shop Profile</h2>
+        <div class="profile-card">
+          <p><strong>Medical Name:</strong> <span id="shop-name"></span></p>
+          <p><strong>Full Address:</strong> <span id="shop-address"></span></p>
+          <p><strong>Admin Name:</strong> <span id="admin-name"></span></p>
+          <p><strong>Admin Contact No.:</strong> <span id="admin-contact"></span></p>
+        </div>
+      </section>
 
-    <br>
-    <button id="logout">Logout</button>
+      <section id="medicine-section" class="medicine-section hidden">
+        <h2>Medicines</h2>
+        <input type="text" id="search" placeholder="Search by Name, Company, Composition, Use, or Stock" />
+        <table class="medicine-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Medicine Name</th>
+              <th>Use</th>
+              <th>Composition</th>
+              <th>Stock</th>
+              <th>Company</th>
+            </tr>
+          </thead>
+          <tbody id="medicine-list"></tbody>
+        </table>
+        <button id="back-btn" class="back-btn">← Back to Medicals</button>
+      </section>
+    </main>
   </div>
 
   <script>
-    // Show logged-in user's name
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      window.location.href = "login.html";
-    } else {
-      document.getElementById("welcomeText").textContent = `Welcome, ${user.name}!`;
-    }
-
-    async function getMedicine() {
-      const input = document.getElementById("diseaseInput").value.trim();
-
-      if (!input) {
-        alert("Please enter a symptom, disease, company, or medicine name!");
-        return;
+    document.addEventListener("DOMContentLoaded", () => {
+      // --- ✅ Check login status ---
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.getElementById("welcome-text").textContent = `Welcome, ${user.name || "User"}`;
       }
 
-      const response = await fetch(`http://localhost:5000/api/medicines?symptom=${encodeURIComponent(input)}`);
+      // --- ✅ Logout functionality ---
+      document.getElementById("logout-btn").addEventListener("click", () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("role");
+        window.location.href = "login.html";
+      });
+
+      // --- Dummy data ---
+      const medicals = [
+        {
+          name: "HealthHub",
+          address: "123 Wellness Ave, Healthy City, 654321",
+          admin: "Dr. A. Sharma",
+          contact: "+1 234 567 890",
+          medicines: [
+            { name: "Chyawanprash", use: "Boosts immunity", stock: 50, composition: "Amla, Ashwagandha, Giloy", company: "Patanjali", image: "https://cdn-icons-png.flaticon.com/512/2965/2965567.png" },
+            { name: "Septilin", use: "Fights infections", stock: 40, composition: "Tinospora cordifolia, Licorice", company: "Himalaya", image: "https://cdn-icons-png.flaticon.com/512/2965/2965567.png" }
+          ]
+        }
+      ];
+
+      const medicalList = document.getElementById("medical-list");
+      const profileSection = document.getElementById("profile-section");
+      const medicineSection = document.getElementById("medicine-section");
+      const medicineList = document.getElementById("medicine-list");
+      const searchInput = document.getElementById("search");
+      const backBtn = document.getElementById("back-btn");
+      let currentMedicines = [];
+
+      function renderMedicals() {
+        medicalList.innerHTML = "";
+        medicals.forEach((med, index) => {
+          const card = document.createElement("div");
+          card.classList.add("medical-card");
+          card.innerHTML = `
+            <h3>${med.name}</h3>
+            <p><strong>Admin:</strong> ${med.admin}</p>
+            <p><strong>Contact:</strong> ${med.contact}</p>
+            <p><strong>Address:</strong> ${med.address}</p>
+          `;
+          card.addEventListener("click", () => showMedicalDetails(index));
+          medicalList.appendChild(card);
+        });
+      }
+
+      function showMedicalDetails(index) {
+        const shop = medicals[index];
+        document.getElementById("shop-name").textContent = shop.name;
+        document.getElementById("shop-address").textContent = shop.address;
+        document.getElementById("admin-name").textContent = shop.admin;
+        document.getElementById("admin-contact").textContent = shop.contact;
+
+        currentMedicines = shop.medicines;
+        renderMedicines(currentMedicines);
+
+        document.querySelector(".medical-list-section").classList.add("hidden");
+        profileSection.classList.remove("hidden");
+        medicineSection.classList.remove("hidden");
+      }
+
+      function renderMedicines(medicines, filter = "") {
+        medicineList.innerHTML = "";
+        const filtered = medicines.filter(med =>
+          med.name.toLowerCase().includes(filter) ||
+          med.company.toLowerCase().includes(filter) ||
+          med.use.toLowerCase().includes(filter) ||
+          med.composition.toLowerCase().includes(filter) ||
+          String(med.stock).includes(filter)
+        );
+
+        filtered.forEach(med => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td><img src="${med.image}" alt="${med.name}"></td>
+            <td>${med.name}</td>
+            <td>${med.use}</td>
+            <td>${med.composition}</td>
+            <td>${med.stock}</td>
+            <td>${med.company}</td>
+          `;
+          medicineList.appendChild(row);
+        });
+      }
+
+      searchInput.addEventListener("input", (e) => {
+        renderMedicines(currentMedicines, e.target.value.toLowerCase());
+      });
+
+      backBtn.addEventListener("click", () => {
+        profileSection.classList.add("hidden");
+        medicineSection.classList.add("hidden");
+        document.querySelector(".medical-list-section").classList.remove("hidden");
+      });
+
+      renderMedicals();
+
+
+
+
+
+
+      
+  document.addEventListener("DOMContentLoaded", async () => {
+  // --- ✅ Check login status ---
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("welcome-text").textContent = `Welcome, ${user.name || "User"}`;
+  }
+
+  const city = user.city;
+  const medicalList = document.getElementById("medical-list");
+  const profileSection = document.getElementById("profile-section");
+  const medicineSection = document.getElementById("medicine-section");
+  const medicineList = document.getElementById("medicine-list");
+  const searchInput = document.getElementById("search");
+  const backBtn = document.getElementById("back-btn");
+
+  let currentMedicines = [];
+
+  // --- ✅ Logout functionality ---
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+  });
+
+  // --- ✅ Fetch admins based on user city ---
+  async function fetchAdminsByCity() {
+    try {
+      const response = await fetch(`http://localhost:5000/api/admins/${city}`);
       const data = await response.json();
 
-      const symptomDiv = document.getElementById("symptom-list");
-      const remediesDiv = document.getElementById("remedies-list");
-      const compositionDiv = document.getElementById("composition-list");
-      const companyDiv = document.getElementById("company-list");
-      const usageDiv = document.getElementById("usage-list");
-      const imageDiv = document.getElementById("image-list");
-
       if (data.length === 0) {
-        symptomDiv.innerHTML = "No results found.";
-        remediesDiv.innerHTML = "";
-        compositionDiv.innerHTML = "";
-        companyDiv.innerHTML = "";
-        usageDiv.innerHTML = "";
-        imageDiv.innerHTML = "";
+        medicalList.innerHTML = `<p>No medical shops found in your city (${city}).</p>`;
         return;
       }
 
-      // Collect all data
-      const medicineNames = [...new Set(data.map(m => m.medicine_name))].join(", ");
-      const ingredients = [...new Set(data.map(m => m.ingredients))].join(", ");
-      const companies = [...new Set(data.map(m => m.company_name))].join(", ");
-      const usageInfo = [...new Set(data.map(m => m.usage_info))].join(", ");
-      const symptoms = [...new Set(data.map(m => m.symptom))].join(", ");
-
-      symptomDiv.innerHTML = symptoms || "N/A";
-      remediesDiv.innerHTML = medicineNames || "N/A";
-      compositionDiv.innerHTML = ingredients || "N/A";
-      companyDiv.innerHTML = companies || "N/A";
-      usageDiv.innerHTML = usageInfo || "N/A";
-
-      // Image (only if available)
-      imageDiv.innerHTML = "";
-      if (data[0].image_path && data[0].image_path !== "null") {
-        imageDiv.innerHTML = `<img src="http://localhost:5000/${data[0].image_path}" alt="Medicine Image" width="150">`;
-      }
+      renderMedicals(data);
+    } catch (error) {
+      console.error("Error fetching admins:", error);
     }
+  }
 
-    // Logout
-    document.getElementById("logout").addEventListener("click", () => {
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
-      window.location.href = "signup.html";
+  // --- ✅ Render medical shops ---
+  function renderMedicals(medicals) {
+    medicalList.innerHTML = "";
+    medicals.forEach((med) => {
+      const card = document.createElement("div");
+      card.classList.add("medical-card");
+      card.innerHTML = `
+        <h3>${med.name}</h3>
+        <p><strong>Admin:</strong> ${med.name}</p>
+        <p><strong>Contact:</strong> ${med.phone}</p>
+        <p><strong>Address:</strong> ${med.address}</p>
+      `;
+      card.addEventListener("click", () => showMedicalDetails(med));
+      medicalList.appendChild(card);
     });
-  </script>
-</body>
-</html> -->
+  }
 
+  // --- ✅ Show admin profile and load medicines ---
+  async function showMedicalDetails(admin) {
+    document.getElementById("shop-name").textContent = admin.name;
+    document.getElementById("shop-address").textContent = admin.address;
+    document.getElementById("admin-name").textContent = admin.name;
+    document.getElementById("admin-contact").textContent = admin.phone;
 
+    await fetchMedicines(admin.admin_id);
 
+    document.querySelector(".medical-list-section").classList.add("hidden");
+    profileSection.classList.remove("hidden");
+    medicineSection.classList.remove("hidden");
+  }
 
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fc;
-      text-align: center;
-      padding: 40px;
-    }
-    .dashboard {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    h2 {
-      color: #333;
-    }
-    #diseaseInput {
-      padding: 10px;
-      width: 60%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      background-color: #0066ff;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #004fcc;
-    }
-    .results {
-      margin-top: 30px;
-      text-align: left;
-    }
-    .results div {
-      background: #fafafa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    img {
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="dashboard">
-    <h2 id="welcomeText">Welcome, User!</h2>
-    <p>You are logged in as a <b>User</b>.</p>
-
-    <hr><br>
-
-    <h3>🔍 Search for Medicine by Symptom / Disease / Company</h3>
-    <input type="text" id="diseaseInput" placeholder="Enter symptom, disease, or company name">
-    <button onclick="getMedicine()">Search</button>
-
-    <div class="results">
-      <h3>Search Results:</h3>
-      <div><b>Medicine Name:</b> <span id="remedies-list"></span></div>
-      <div><b>Composition:</b> <span id="composition-list"></span></div>
-      <div><b>Company:</b> <span id="company-list"></span></div>
-      <div><b>Usage Info:</b> <span id="usage-list"></span></div>
-      <div id="image-list"></div>
-    </div>
-
-    <br>
-    <button id="logout">Logout</button>
-  </div>
-
-  <script>
-    // Show logged-in user's name
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      window.location.href = "login.html";
-    } else {
-      document.getElementById("welcomeText").textContent = `Welcome, ${user.name}!`;
-    }
-
-    async function getMedicine() {
-      const input = document.getElementById("diseaseInput").value.trim();
-
-      if (!input) {
-        alert("Please enter a symptom, disease, or company name!");
-        return;
-      }
-
-      const response = await fetch(`http://localhost:5000/api/medicines?symptom=${encodeURIComponent(input)}`);
+  // --- ✅ Fetch medicines for selected admin ---
+  async function fetchMedicines(adminId) {
+    try {
+      const response = await fetch(`http://localhost:5000/api/medicines/admin/${adminId}`);
       const data = await response.json();
-
-      const remediesDiv = document.getElementById("remedies-list");
-      const compositionDiv = document.getElementById("composition-list");
-      const companyDiv = document.getElementById("company-list");
-      const usageDiv = document.getElementById("usage-list");
-      const imageDiv = document.getElementById("image-list");
-
-      if (data.length === 0) {
-        remediesDiv.innerHTML = "No results found.";
-        compositionDiv.innerHTML = "";
-        companyDiv.innerHTML = "";
-        usageDiv.innerHTML = "";
-        imageDiv.innerHTML = "";
-        return;
-      }
-
-      const med = data[0];
-      remediesDiv.innerHTML = med.medicine_name;
-      compositionDiv.innerHTML = med.ingredients;
-      companyDiv.innerHTML = med.company_name;
-      usageDiv.innerHTML = med.usage_info;
-//imageDiv.innerHTML = `<img src="${med.image_path}" alt="Medicine Image" width="150">`;
+      currentMedicines = data;
+      renderMedicines(data);
+    } catch (error) {
+      console.error("Error fetching medicines:", error);
     }
+  }
 
-    // Logout
-    document.getElementById("logout").addEventListener("click", () => {
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
-      window.location.href = "signup.html";
+  // --- ✅ Render medicines ---
+  function renderMedicines(medicines, filter = "") {
+    medicineList.innerHTML = "";
+    const filtered = medicines.filter(med =>
+      med.medicine_name.toLowerCase().includes(filter) ||
+      med.company_name.toLowerCase().includes(filter) ||
+      med.use_info.toLowerCase().includes(filter) ||
+      med.composition.toLowerCase().includes(filter) ||
+      String(med.stock).includes(filter)
+    );
+
+    filtered.forEach(med => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><img src="${med.image_path || 'https://cdn-icons-png.flaticon.com/512/2965/2965567.png'}" alt="${med.medicine_name}"></td>
+        <td>${med.medicine_name}</td>
+        <td>${med.use_info}</td>
+        <td>${med.composition}</td>
+        <td>${med.stock}</td>
+        <td>${med.company_name}</td>
+      `;
+      medicineList.appendChild(row);
+    });
+  }
+
+  // --- ✅ Search functionality ---
+  searchInput.addEventListener("input", (e) => {
+    renderMedicines(currentMedicines, e.target.value.toLowerCase());
+  });
+
+  // --- ✅ Back button ---
+  backBtn.addEventListener("click", () => {
+    profileSection.classList.add("hidden");
+    medicineSection.classList.add("hidden");
+    document.querySelector(".medical-list-section").classList.remove("hidden");
+  });
+
+  // --- ✅ Load initial data ---
+  await fetchAdminsByCity();
+});
+
+
+
+
+
+
+
     });
   </script>
 </body>
-</html> -->
+</html>
 
 
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="dashboard">
-    <h2>Welcome, User!</h2>
-    <p>You are logged in as a user.</p>
-    <button id="logout">Logout</button>
-  </div>
+ -->
 
-  <script>
-    document.getElementById("logout").addEventListener("click", () => {
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
-      window.location.href = "login.html";
-    });
-  </script>
-</body>
-</html> -->

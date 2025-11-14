@@ -1,4 +1,418 @@
-<!DOCTYPE html>
+
+  
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌿 AyurTech Admin Dashboard</title>
+    <style>
+      /* 🌈 Multi-Color Modern Styling */
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #f0fff4;
+        color: #123524;
+      }
+  
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+  
+      /* Sidebar */
+      .sidebar {
+        width: 240px;
+        background: linear-gradient(180deg, #00796b, #4db6ac);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+      }
+  
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+  
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      .sidebar li {
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+  
+      .sidebar li.active,
+      .sidebar li:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+  
+      /* Main content */
+      .main {
+        flex: 1;
+        padding: 2rem;
+        background: #f9fffb;
+        overflow-y: auto;
+      }
+  
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+  
+      .logout-btn {
+        background: #ff5252;
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+  
+      .logout-btn:hover {
+        background: #e53935;
+      }
+  
+      .medicine-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+  
+      .add-btn {
+        background: linear-gradient(90deg, #43a047, #66bb6a);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+  
+      .add-btn:hover {
+        background: linear-gradient(90deg, #2e7d32, #388e3c);
+      }
+  
+      /* Search bar */
+      .search-container {
+        margin-bottom: 1rem;
+        text-align: right;
+      }
+  
+      .search-container input {
+        padding: 0.5rem;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+  
+      /* Table */
+      .table-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        overflow-x: auto;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+  
+      th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+  
+      th {
+        background: linear-gradient(90deg, #e8f5e9, #c8e6c9);
+        font-weight: 700;
+      }
+  
+      td {
+        background-color: #ffffff;
+      }
+  
+      tr:hover td {
+        background: #f1f8e9;
+      }
+  
+      .action-btn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+  
+      .edit {
+        color: #00796b;
+      }
+  
+      .delete {
+        color: #e53935;
+      }
+  
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+      }
+  
+      .modal-content {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        width: 420px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+  
+      .modal-content label {
+        display: block;
+        margin-top: 0.6rem;
+        font-weight: 500;
+      }
+  
+      .modal-content input {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-top: 0.3rem;
+      }
+  
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 1rem;
+      }
+  
+      .save-btn {
+        background: #43a047;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+      }
+  
+      .cancel-btn {
+        background: #ccc;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2 class="logo">🌿 AyurTech</h2>
+        <ul>
+          <li class="active">📊 Dashboard</li>
+          <li>💊 Medicines</li>
+        </ul>
+      </aside>
+  
+      <!-- Main Content -->
+      <main class="main">
+        <header>
+          <h1>Admin Dashboard</h1>
+          <div class="admin-info">
+            <span>Welcome, Admin</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+          </div>
+        </header>
+  
+        <section class="content">
+          <div class="medicine-header">
+            <h2>Medicine List</h2>
+            <button id="addBtn" class="add-btn">+ Add Medicine</button>
+          </div>
+  
+          <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by Name, Company, Use, Composition..." />
+          </div>
+  
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Medicine Name</th>
+                  <th>Use</th>
+                  <th>Stock</th>
+                  <th>Composition</th>
+                  <th>Company</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="medicineList"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  
+    <!-- Modal -->
+    <div id="medicineModal" class="modal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Add Medicine</h3>
+        <form id="medicineForm">
+          <input type="hidden" id="editIndex" />
+          <label>Medicine Name</label>
+          <input type="text" id="name" required />
+          <label>Use</label>
+          <input type="text" id="use" required />
+          <label>Stock</label>
+          <input type="number" id="stock" required />
+          <label>Composition</label>
+          <input type="text" id="composition" required />
+          <label>Company</label>
+          <input type="text" id="company" required />
+          <div class="modal-actions">
+            <button type="submit" class="save-btn">Save</button>
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <script>
+      let medicines = [
+        { name: "Chyawanprash", use: "Boosts immunity", stock: 50, composition: "Amla, Ashwagandha, Giloy", company: "Patanjali" },
+        { name: "Septilin", use: "Fights infections", stock: 40, composition: "Tinospora cordifolia, licorice", company: "Himalaya" },
+        { name: "Kesari Kalp", use: "Enhances energy", stock: 30, composition: "Saffron, Amla, Ashwagandha", company: "Baidyanath" },
+        { name: "Green Essentials", use: "Daily wellness", stock: 25, composition: "Spirulina, Wheatgrass", company: "Planet Ayurveda" },
+        { name: "Liv.52 DS", use: "Supports liver", stock: 20, composition: "Himsra, Kasani, Mandur Bhasma", company: "Himalaya" },
+      ];
+  
+      const tableBody = document.getElementById("medicineList");
+      const modal = document.getElementById("medicineModal");
+      const form = document.getElementById("medicineForm");
+      const addBtn = document.getElementById("addBtn");
+      const searchInput = document.getElementById("searchInput");
+  
+      function renderMedicines(filter = "") {
+        tableBody.innerHTML = medicines
+          .filter(m => 
+            m.name.toLowerCase().includes(filter) ||
+            m.company.toLowerCase().includes(filter) ||
+            m.use.toLowerCase().includes(filter) ||
+            m.composition.toLowerCase().includes(filter) ||
+            String(m.stock).includes(filter)
+          )
+          .map((m, i) => `
+            <tr>
+              <td>${m.name}</td>
+              <td>${m.use}</td>
+              <td>${m.stock}</td>
+              <td>${m.composition}</td>
+              <td>${m.company}</td>
+              <td>
+                <button class="action-btn edit" onclick="editMedicine(${i})">✏️</button>
+                <button class="action-btn delete" onclick="deleteMedicine(${i})">🗑️</button>
+              </td>
+            </tr>
+          `).join("");
+      }
+  
+      addBtn.addEventListener("click", () => {
+        form.reset();
+        document.getElementById("editIndex").value = "";
+        document.getElementById("modalTitle").textContent = "Add Medicine";
+        modal.style.display = "flex";
+      });
+  
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const newMed = {
+          name: document.getElementById("name").value,
+          use: document.getElementById("use").value,
+          stock: document.getElementById("stock").value,
+          composition: document.getElementById("composition").value,
+          company: document.getElementById("company").value,
+        };
+        const index = document.getElementById("editIndex").value;
+        if (index === "") medicines.push(newMed);
+        else medicines[index] = newMed;
+        modal.style.display = "none";
+        renderMedicines(searchInput.value.toLowerCase());
+      });
+  
+      function editMedicine(i) {
+        const m = medicines[i];
+        document.getElementById("editIndex").value = i;
+        document.getElementById("name").value = m.name;
+        document.getElementById("use").value = m.use;
+        document.getElementById("stock").value = m.stock;
+        document.getElementById("composition").value = m.composition;
+        document.getElementById("company").value = m.company;
+        document.getElementById("modalTitle").textContent = "Edit Medicine";
+        modal.style.display = "flex";
+      }
+  
+      function deleteMedicine(i) {
+        if (confirm("Delete this medicine?")) {
+          medicines.splice(i, 1);
+          renderMedicines(searchInput.value.toLowerCase());
+        }
+      }
+  
+      function closeModal() {
+        modal.style.display = "none";
+      }
+  
+      function logout() {
+        alert("You have been logged out!");
+        window.location.href = "login.html";
+      }
+  
+      searchInput.addEventListener("input", () => renderMedicines(searchInput.value.toLowerCase()));
+  
+      window.onclick = (event) => {
+        if (event.target === modal) closeModal();
+      };
+  
+      renderMedicines();
+    </script>
+  </body>
+  </html>
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,4 +434,4 @@
     });
   </script>
 </body>
-</html>
+</html> -->
