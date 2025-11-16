@@ -352,7 +352,39 @@
 
 
     //new 3 code 
-    async function fetchMedicines() {
+//     async function fetchMedicines() {
+//   const adminId = localStorage.getItem("adminId");
+
+//   if (!adminId) {
+//     alert("Admin ID missing. Login again.");
+//     window.location.href = "login.html";
+//     return;
+//   }
+
+//   const response = await fetch(`http://localhost:5000/api/dashboard/medicines/admin/${adminId}`);
+//   const data = await response.json();
+
+//   if (!Array.isArray(data)) {
+//     console.error("Backend error:", data);
+//     alert("Failed to load medicines");
+//     return;
+//   }
+
+//   medicines = data.map(m => ({
+//     name: m.medicine_name,
+//     use: m.use_info,
+//     stock: m.stock,
+//     composition: m.composition,
+//     company: m.company_name
+//   }));
+
+//   renderMedicines(searchInput.value.toLowerCase());
+// }
+
+//new new code 
+// ⭐ FINAL WORKING FETCH FUNCTION (paste here)
+
+async function fetchMedicines() {
   const adminId = localStorage.getItem("adminId");
 
   if (!adminId) {
@@ -373,7 +405,7 @@
   medicines = data.map(m => ({
     name: m.medicine_name,
     use: m.use_info,
-    stock: m.stock,
+    stock: m.stock_status,
     composition: m.composition,
     company: m.company_name
   }));
@@ -381,7 +413,6 @@
   renderMedicines(searchInput.value.toLowerCase());
 }
 
-//new new code 
 
 // async function fetchMedicines() {
 //   const adminId = localStorage.getItem("adminId");
