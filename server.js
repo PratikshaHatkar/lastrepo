@@ -1,6 +1,6 @@
 
-//old code works good
-// // 1 search admin by city works sigup work 
+//this work good
+
 import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
@@ -33,7 +33,7 @@ db.connect((err) => {
   console.log("✅ MySQL Connected!");
 });
 
-// ✅ Default route
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "signup.html"));
 });
@@ -76,7 +76,7 @@ app.get("/api/medicines", (req, res) => {
 });
 
 
-// ✅ SIGNUP API
+//  SIGNUP API
 app.post("/signup", async (req, res) => {
   const { role, name, email, password, address, city, phone } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -131,42 +131,13 @@ app.post("/api/login", (req, res) => {
 });
 
 
-//search medicines;currently commented
-// app.get("/api/medicines/admin/:adminId", (req, res) => {
-//   const adminId = req.params.adminId;
-
-//   const query = `
-//     SELECT 
-//       m.medicine_id,
-//       m.name AS medicine_name,
-//       m.usage_info AS use_info,
-//       GROUP_CONCAT(DISTINCT comp.ingredient ORDER BY comp.ingredient SEPARATOR ', ') AS composition,
-//       c.company_name,
-//       am.stock_status AS stock,
-//       m.image_path
-//     FROM admin_medicines am
-//     JOIN medicines m ON am.medicine_id = m.medicine_id
-//     JOIN company_master c ON m.company_id = c.company_id
-//     LEFT JOIN composition comp ON m.medicine_id = comp.medicine_id
-//     WHERE am.admin_id = ?
-//     GROUP BY m.medicine_id;
-//   `;
-
-//   db.query(query, [adminId], (err, results) => {
-//     if (err) {
-//       console.log("🔴 SQL Error:", err);  // <---- ADD THIS
-//       return res.status(500).json({ error: err.message });
-//     }
-//     res.json(results);
-//   });
-// });
 
 
 
 
 
 
-// ✅ Get Admins by User City
+//  Get Admins by User City
 app.get("/api/admins/:city", (req, res) => {
   const city = req.params.city;
   const query = `
@@ -241,13 +212,47 @@ async function fetchMedicines() {
 }
 
 
-// ===================== ✅ NEWLY ADDED DASHBOARD ROUTES =====================
 
 
-// ✅ Start Server
+// Start Server
 const PORT = 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
+
+
+
+
+
+
+//search medicines;currently commented
+// app.get("/api/medicines/admin/:adminId", (req, res) => {
+//   const adminId = req.params.adminId;
+
+//   const query = `
+//     SELECT 
+//       m.medicine_id,
+//       m.name AS medicine_name,
+//       m.usage_info AS use_info,
+//       GROUP_CONCAT(DISTINCT comp.ingredient ORDER BY comp.ingredient SEPARATOR ', ') AS composition,
+//       c.company_name,
+//       am.stock_status AS stock,
+//       m.image_path
+//     FROM admin_medicines am
+//     JOIN medicines m ON am.medicine_id = m.medicine_id
+//     JOIN company_master c ON m.company_id = c.company_id
+//     LEFT JOIN composition comp ON m.medicine_id = comp.medicine_id
+//     WHERE am.admin_id = ?
+//     GROUP BY m.medicine_id;
+//   `;
+
+//   db.query(query, [adminId], (err, results) => {
+//     if (err) {
+//       console.log("🔴 SQL Error:", err);  // <---- ADD THIS
+//       return res.status(500).json({ error: err.message });
+//     }
+//     res.json(results);
+//   });
+// });
 
 
 

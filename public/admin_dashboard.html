@@ -336,7 +336,7 @@
             <td>${m.company}</td>
             <td>
               <button class="action-btn edit" onclick="editMedicine(${i})">✏️</button>
-              <button class="action-btn delete" onclick="deleteMedicine(${i})">🗑️</button>
+            
             </td>
           </tr>
         `).join("");
@@ -349,40 +349,6 @@
       modal.style.display = "flex";
     });
 
-
-
-    //new 3 code 
-//     async function fetchMedicines() {
-//   const adminId = localStorage.getItem("adminId");
-
-//   if (!adminId) {
-//     alert("Admin ID missing. Login again.");
-//     window.location.href = "login.html";
-//     return;
-//   }
-
-//   const response = await fetch(`http://localhost:5000/api/dashboard/medicines/admin/${adminId}`);
-//   const data = await response.json();
-
-//   if (!Array.isArray(data)) {
-//     console.error("Backend error:", data);
-//     alert("Failed to load medicines");
-//     return;
-//   }
-
-//   medicines = data.map(m => ({
-//     name: m.medicine_name,
-//     use: m.use_info,
-//     stock: m.stock,
-//     composition: m.composition,
-//     company: m.company_name
-//   }));
-
-//   renderMedicines(searchInput.value.toLowerCase());
-// }
-
-//new new code 
-// ⭐ FINAL WORKING FETCH FUNCTION (paste here)
 
 async function fetchMedicines() {
   const adminId = localStorage.getItem("adminId");
@@ -405,7 +371,7 @@ async function fetchMedicines() {
   medicines = data.map(m => ({
     name: m.medicine_name,
     use: m.use_info,
-    stock: m.stock_status,
+    stock: m.stock,
     composition: m.composition,
     company: m.company_name
   }));
@@ -413,39 +379,6 @@ async function fetchMedicines() {
   renderMedicines(searchInput.value.toLowerCase());
 }
 
-
-// async function fetchMedicines() {
-//   const adminId = localStorage.getItem("adminId");
-
-//   if (!adminId) {
-//     alert("Admin ID missing. Login again.");
-//     window.location.href = "login.html";
-//     return;
-//   }
-
-//   const response = await fetch(`http://localhost:5000/api/dashboard/medicines/admin/${adminId}`);
-//   const data = await response.json();
-
-//   medicines = data.map(m => ({
-//     name: m.medicine_name,
-//     use: m.use_info,
-//     stock: m.stock,
-//     composition: m.composition,
-//     company: m.company_name
-//   }));
-
-//   renderMedicines(searchInput.value.toLowerCase());
-// }
-
-
-    //new code 
-//     async function fetchMedicines() {
-// const response = await fetch("http://localhost:5000/api/medicines");
-// const data = await response.json();
-// medicines = data;
-// renderMedicines(searchInput.value.toLowerCase());
-// }
-//-------this also
 
     form.addEventListener("submit", async (e) => {
 e.preventDefault();
@@ -457,7 +390,8 @@ const data = {
   stock: document.getElementById("stock").value,
   composition: document.getElementById("composition").value,
   company: document.getElementById("company").value,
-  admin_id: 3 // or get from login
+  admin_id: localStorage.getItem("adminId")
+ // or get from login
 };
 
 try {
@@ -480,23 +414,6 @@ try {
 window.onload = fetchMedicines;
 
 
-
-///old code 
-    // form.addEventListener("submit", (e) => {
-    //   e.preventDefault();
-    //   const newMed = {
-    //     name: document.getElementById("name").value,
-    //     use: document.getElementById("use").value,
-    //     stock: document.getElementById("stock").value,
-    //     composition: document.getElementById("composition").value,
-    //     company: document.getElementById("company").value,
-    //   };
-    //   const index = document.getElementById("editIndex").value;
-    //   if (index === "") medicines.push(newMed);
-    //   else medicines[index] = newMed;
-    //   modal.style.display = "none";
-    //   renderMedicines(searchInput.value.toLowerCase());
-    // });
 
     function editMedicine(i) {
       const m = medicines[i];
@@ -540,3 +457,95 @@ window.onload = fetchMedicines;
 
 
 
+
+<!-- 
+/  <button class="action-btn delete" onclick="deleteMedicine(${i})">🗑️</button>
+
+    //new 3 code 
+//     async function fetchMedicines() {
+//   const adminId = localStorage.getItem("adminId");
+
+//   if (!adminId) {
+//     alert("Admin ID missing. Login again.");
+//     window.location.href = "login.html";
+//     return;
+//   }
+
+//   const response = await fetch(`http://localhost:5000/api/dashboard/medicines/admin/${adminId}`);
+//   const data = await response.json();
+
+//   if (!Array.isArray(data)) {
+//     console.error("Backend error:", data);
+//     alert("Failed to load medicines");
+//     return;
+//   }
+
+//   medicines = data.map(m => ({
+//     name: m.medicine_name,
+//     use: m.use_info,
+//     stock: m.stock,
+//     composition: m.composition,
+//     company: m.company_name
+//   }));
+
+//   renderMedicines(searchInput.value.toLowerCase());
+// }
+
+//new new code 
+// ⭐ FINAL WORKING FETCH FUNCTION (paste here)
+
+
+ -->
+
+
+
+<!--  
+// async function fetchMedicines() {
+  //   const adminId = localStorage.getItem("adminId");
+  
+  //   if (!adminId) {
+  //     alert("Admin ID missing. Login again.");
+  //     window.location.href = "login.html";
+  //     return;
+  //   }
+  
+  //   const response = await fetch(`http://localhost:5000/api/dashboard/medicines/admin/${adminId}`);
+  //   const data = await response.json();
+  
+  //   medicines = data.map(m => ({
+  //     name: m.medicine_name,
+  //     use: m.use_info,
+  //     stock: m.stock,
+  //     composition: m.composition,
+  //     company: m.company_name
+  //   }));
+  
+  //   renderMedicines(searchInput.value.toLowerCase());
+  // }
+  
+  
+      //new code 
+  //     async function fetchMedicines() {
+  // const response = await fetch("http://localhost:5000/api/medicines");
+  // const data = await response.json();
+  // medicines = data;
+  // renderMedicines(searchInput.value.toLowerCase());
+  // }
+  //-------this also -->
+
+ <!-- old code 
+     form.addEventListener("submit", (e) => {
+//       e.preventDefault();
+//       const newMed = {
+//         name: document.getElementById("name").value,
+//         use: document.getElementById("use").value,
+//         stock: document.getElementById("stock").value,
+//         composition: document.getElementById("composition").value,
+//         company: document.getElementById("company").value,
+//       };
+//       const index = document.getElementById("editIndex").value;
+//       if (index === "") medicines.push(newMed);
+//       else medicines[index] = newMed;
+//       modal.style.display = "none";
+//       renderMedicines(searchInput.value.toLowerCase());
+//     }); -->
